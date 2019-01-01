@@ -12,12 +12,26 @@
           />
           <v-text-field
             v-model="password"
-            :counter="10"
             label="Password"
             type="password"
             required
           />
-          <v-btn @click="createEmailAccount">Create Account</v-btn>
+          <v-layout v-if="type === 'login'">
+            <v-btn @click="loginEmailAccount">Login</v-btn>
+            <v-btn
+              outline
+              @click="type = 'register'">
+              SignUp
+            </v-btn>
+          </v-layout>
+          <v-layout v-if="type === 'register'">
+            <v-btn @click="createEmailAccount">Create Account</v-btn>
+            <v-btn
+              outline
+              @click="type = 'login'">
+              Login
+            </v-btn>
+          </v-layout>
           <v-btn @click="authGoogleAccount">Sign in with Google</v-btn>
         </v-form>
       </v-card>
@@ -37,6 +51,7 @@ export default {
   },
   data() {
     return {
+      type: 'login',
       email: '',
       password: '',
       dialogData: this.dialog
@@ -67,6 +82,18 @@ export default {
             .catch(err => {
               alert('EmailVerificationでerrが発生しました。', err)
             })
+          this.dialogData = false
+        })
+        .catch(error => {
+          alert(error.message)
+        })
+    },
+    loginEmailAccount() {
+      firebase
+        .auth()
+        .signInWithEmailAndPassword(this.email, this.password)
+        .then(user => {
+          alert('ログインしました')
           this.dialogData = false
         })
         .catch(error => {
