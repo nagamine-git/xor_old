@@ -56,8 +56,8 @@
         <v-icon>menu</v-icon>
       </v-btn>
     </v-toolbar>
-    <v-content>
-      <v-container>
+    <v-content style="overflow-x: scroll;">
+      <v-container style="display: inline;">
         <nuxt />
       </v-container>
     </v-content>

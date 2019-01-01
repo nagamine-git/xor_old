@@ -4,11 +4,11 @@
     pb-1
     md4
     xs12>
-    <v-card id="task">
+    <v-card id="apps">
       <v-card-title>
         <div>
-          <h3 class="headline mb-0">Task</h3>
-          <div>Task Component</div>
+          <h3 class="headline mb-0">Apps</h3>
+          <div>Apps Component</div>
         </div>
       </v-card-title>
     </v-card>
@@ -17,6 +17,6 @@
 
 <script>
 export default {
-  name: 'XTask'
+  name: 'XApps'
 }
 </script>

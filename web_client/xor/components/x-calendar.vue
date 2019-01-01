@@ -1,7 +1,9 @@
 <template>
   <v-flex
     px-1
-    xs3>
+    pb-1
+    md4
+    xs12>
     <v-card id="calendar">
       <v-card-title>
         <div>
