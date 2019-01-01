@@ -79,3 +79,6 @@ dist
 
 # IDE
 .idea
+
+# ignore config folder
+config
