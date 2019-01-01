@@ -30,6 +30,10 @@
           </v-list-tile-content>
         </v-list-tile>
       </v-list>
+      <v-btn @click="dialog = true">Sign In</v-btn>
+      <x-login-modal
+        :dialog="dialog"
+        @chengeDialog="applyDialog"/>
     </v-navigation-drawer>
     <v-content style="overflow-x: scroll;">
       <v-container style="display: inline;">
@@ -40,9 +44,16 @@
 </template>
 
 <script>
+import firebase from '~/plugins/firebase.js'
+import XLoginModal from '~/components/x-login-modal.vue'
 export default {
+  components: {
+    XLoginModal
+  },
   data() {
     return {
+      user: {},
+      dialog: false,
       isDark: true,
       clipped: false,
       drawer: true,
@@ -55,6 +66,17 @@ export default {
       right: true,
       rightDrawer: false,
       title: 'Vuetify.js'
+    }
+  },
+  created() {
+    firebase.auth().onAuthStateChanged(user => {
+      console.log(user)
+      this.user = user
+    })
+  },
+  methods: {
+    applyDialog(dialog) {
+      this.dialog = dialog
     }
   }
 }
