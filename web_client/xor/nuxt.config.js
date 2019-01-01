@@ -1,5 +1,5 @@
 const pkg = require('./package')
-const environment = process.env.NODE_ENV || 'development';
+const environment = process.env.NODE_ENV || 'development'
 const envSet = require(`./config/env.${environment}.js`)
 
 module.exports = {
@@ -38,7 +38,7 @@ module.exports = {
   /*
   ** Plugins to load before mounting the App
   */
-  plugins: ['@/plugins/vuetify'],
+  plugins: ['@/plugins/vuetify', '~/plugins/firebase'],
 
   /*
   ** Nuxt.js modules
