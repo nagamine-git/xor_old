@@ -56,7 +56,17 @@ export default {
         .auth()
         .createUserWithEmailAndPassword(this.email, this.password)
         .then(user => {
-          alert(`Create account: ${user.user.email}`)
+          firebase
+            .auth()
+            .currentUser.sendEmailVerification()
+            .then(() => {
+              alert(
+                `${user.user.email}へ登録メールを送りましたのでご確認ください`
+              )
+            })
+            .catch(err => {
+              alert('EmailVerificationでerrが発生しました。', err)
+            })
           this.dialogData = false
         })
         .catch(error => {
