@@ -57,6 +57,7 @@ export default {
         .createUserWithEmailAndPassword(this.email, this.password)
         .then(user => {
           alert(`Create account: ${user.user.email}`)
+          this.dialogData = false
         })
         .catch(error => {
           alert(error.message)
@@ -69,6 +70,7 @@ export default {
         .signInWithPopup(provider)
         .then(user => {
           alert(`Create account: ${user.user.email}`)
+          this.dialogData = false
         })
     }
   }

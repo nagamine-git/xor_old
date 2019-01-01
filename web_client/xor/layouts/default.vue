@@ -30,7 +30,16 @@
           </v-list-tile-content>
         </v-list-tile>
       </v-list>
-      <v-btn @click="dialog = true">Sign In</v-btn>
+      <v-btn
+        v-if="!user"
+        @click="dialog = true">
+        Sign In
+      </v-btn>
+      <v-btn
+        v-else
+        @click="signOut">
+        Sign Out {{ user.displayName }}
+      </v-btn>
       <x-login-modal
         :dialog="dialog"
         @chengeDialog="applyDialog"/>
@@ -52,7 +61,7 @@ export default {
   },
   data() {
     return {
-      user: {},
+      user: null,
       dialog: false,
       isDark: true,
       clipped: false,
@@ -70,13 +79,22 @@ export default {
   },
   created() {
     firebase.auth().onAuthStateChanged(user => {
-      console.log(user)
       this.user = user
     })
   },
   methods: {
     applyDialog(dialog) {
       this.dialog = dialog
+    },
+    signOut() {
+      firebase
+        .auth()
+        .signOut()
+        .then(() => {
+          alert('Success')
+          this.user = null
+          this.dialog = false
+        })
     }
   }
 }
