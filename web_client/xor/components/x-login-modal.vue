@@ -40,6 +40,7 @@
 </template>
 
 <script>
+import axios from 'axios'
 import firebase from '~/plugins/firebase.js'
 export default {
   name: 'XLoginModal',
@@ -102,11 +103,27 @@ export default {
     },
     authGoogleAccount() {
       const provider = new firebase.auth.GoogleAuthProvider()
+      provider.addScope('https://www.googleapis.com/auth/calendar')
       firebase
         .auth()
         .signInWithPopup(provider)
-        .then(user => {
-          alert(`Create account: ${user.user.email}`)
+        .then(response => {
+          alert(`Create account: ${response.user.email}`)
+          axios
+            .get(
+              'https://www.googleapis.com/calendar/v3/users/me/calendarList',
+              {
+                headers: {
+                  Authorization: 'Bearer ' + response.credential.accessToken
+                }
+              }
+            )
+            .then(response => {
+              alert(`${response.data.items.length}個のカレンダーがあります`)
+            })
+            .catch(error => {
+              console.error(error)
+            })
           this.dialogData = false
         })
     }
