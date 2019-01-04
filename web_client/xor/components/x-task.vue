@@ -8,17 +8,16 @@
       <v-card-title>
         <div>
           <h3 class="headline mb-0">Task</h3>
-          <draggable
-            v-for="list in tasks"
-            :options="{ group: 'tasks' }"
-            :key="list.id"
-            element="ul">
-            <li
-              v-for="item in list"
-              :key="item.id">
-              {{ item }}
-              <span v-fcevent>calendar</span>
-            </li>
+          <draggable v-model="tasks">
+            <div 
+              v-for="task in tasks"
+              :key="task.id">
+              {{ task.name }}
+              <v-icon
+                v-fcevent
+                :data-xid="task.xid"
+                :data-name="task.name">event</v-icon>
+            </div>
           </draggable>
         </div>
       </v-card-title>
@@ -37,18 +36,12 @@ export default {
     fcevent: {
       bind: function(el) {
         $(el).data('event', {
-          title: $.trim($(this).text()), // use the element's text as the event title
-          stick: true // maintain when user navigates (see docs on the renderEvent method)
+          title: el.dataset.name,
+          stick: true
         })
-
-        // Make the event draggable using jQuery UI
         $(el).draggable({
-          start: function(event, ui) {
-            jQuery.event.dispatch.apply($(document)[0], [event])
-          },
-          zIndex: 999,
-          revert: true, // will cause the event to go back to its
-          revertDuration: 0 // original position after the drag
+          revert: true,
+          revertDuration: 0
         })
       }
     }
@@ -56,9 +49,9 @@ export default {
   data() {
     return {
       tasks: [
-        ['task1-1', 'task1-2', 'task1-3', 'task1-4'],
-        ['task2-1', 'task2-2', 'task2-3', 'task2-4'],
-        ['task3-1', 'task3-2', 'task3-3', 'task3-4']
+        { id: 1, name: 'task1', xid: 'xid1' },
+        { id: 2, name: 'task2', xid: 'xid2' },
+        { id: 3, name: 'task3', xid: 'xid3' }
       ]
     }
   }
