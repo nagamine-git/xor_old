@@ -38,7 +38,12 @@ module.exports = {
   /*
   ** Plugins to load before mounting the App
   */
-  plugins: ['@/plugins/vuetify', '~/plugins/firebase'],
+  plugins: [
+    '@/plugins/vuetify',
+    '~/plugins/firebase',
+    '~/plugins/vue-full-calendar',
+    '~/plugins/jquery'
+  ],
 
   /*
   ** Nuxt.js modules
