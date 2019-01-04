@@ -68,7 +68,7 @@ export default {
     dropEvent(event, obj) {
       let date = new Date()
       this.events.push({
-        name: obj.target.dataset.name,
+        title: obj.target.dataset.name,
         xid: obj.target.dataset.xid,
         start: event._d.toUTCString()
       })
