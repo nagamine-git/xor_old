@@ -67,10 +67,7 @@ export default {
       clipped: false,
       drawer: true,
       fixed: false,
-      items: [
-        { inital: 'A', title: 'Welcome', to: '/' },
-        { inital: 'B', title: 'Inspire', to: '/inspire' }
-      ],
+      items: [{ inital: 'A', title: 'Welcome', to: '/' }],
       miniVariant: false,
       right: true,
       rightDrawer: false,
