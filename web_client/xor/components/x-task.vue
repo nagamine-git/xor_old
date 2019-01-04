@@ -15,7 +15,10 @@
             element="ul">
             <li
               v-for="item in list"
-              :key="item.id">{{ item }}</li>
+              :key="item.id">
+              {{ item }}
+              <span v-fcevent>calendar</span>
+            </li>
           </draggable>
         </div>
       </v-card-title>
@@ -29,6 +32,26 @@ export default {
   name: 'XTask',
   components: {
     draggable
+  },
+  directives: {
+    fcevent: {
+      bind: function(el) {
+        $(el).data('event', {
+          title: $.trim($(this).text()), // use the element's text as the event title
+          stick: true // maintain when user navigates (see docs on the renderEvent method)
+        })
+
+        // Make the event draggable using jQuery UI
+        $(el).draggable({
+          start: function(event, ui) {
+            jQuery.event.dispatch.apply($(document)[0], [event])
+          },
+          zIndex: 999,
+          revert: true, // will cause the event to go back to its
+          revertDuration: 0 // original position after the drag
+        })
+      }
+    }
   },
   data() {
     return {
