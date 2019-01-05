@@ -1,0 +1,30 @@
+#.circleci/config.yml
+version: 2
+jobs:
+  web_client:
+    docker:
+      - image: circleci/node:8.14
+    working_directory: ~/web_client/xor
+
+    steps:
+      - checkout
+      - restore_cache:
+          key: yarn-packages-v1-{{ .Branch }}-{{ checksum "web_client/xor/yarn.lock" }}
+      - run:
+          name: yarn
+          command: yarn
+          working_directory: ~/web_client/xor
+      - save_cache:
+          paths:
+            - ~/web_client/xor/node_modules
+          key: yarn-packages-v1-{{ .Branch }}-{{ checksum "web_client/xor/yarn.lock" }}
+      - run:
+          name: run yarn lint
+          command: yarn lint
+          working_directory: ~/web_client/xor
+
+workflows:
+  version: 2
+  lint:
+    jobs:
+      - web_client
