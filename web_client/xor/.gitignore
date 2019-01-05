@@ -83,3 +83,6 @@ dist
 # ignore config folder
 config/*.js
 config/*.json
+
+# firebaseのキャッシュファイル削除
+.firebase
