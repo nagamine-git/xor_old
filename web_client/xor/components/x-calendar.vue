@@ -20,7 +20,10 @@
 
 <script>
 import draggable from 'vuedraggable'
+import moment from 'moment'
 import 'fullcalendar/dist/fullcalendar.css'
+let nowHour = moment().format('HH')
+let scrollTime = (nowHour > 0 ? nowHour - 1 : nowHour) + ':00:00'
 export default {
   name: 'XCalendar',
   components: {
@@ -53,14 +56,19 @@ export default {
           right: null
         },
         defaultView: 'agendaDay',
-        height: 650,
+        height: 750,
         nowIndicator: true,
         locale: 'ja',
         editable: true,
         droppable: true,
         drop: (event, obj) => {
           this.dropEvent(event, obj)
-        }
+        },
+        slotDuration: '00:15:00',
+        slotLabelInterval: '1:00',
+        slotLabelFormat: 'H:mm',
+        slotMinutes: 15,
+        scrollTime: scrollTime
       }
     }
   },
