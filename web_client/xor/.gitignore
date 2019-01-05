@@ -81,4 +81,5 @@ dist
 .idea
 
 # ignore config folder
-config
+config/*.js
+config/*.json
