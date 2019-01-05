@@ -34,7 +34,7 @@ export default {
   },
   directives: {
     fcevent: {
-      bind: function(el) {
+      bind(el) {
         $(el).data('event', {
           title: el.dataset.name,
           stick: true
