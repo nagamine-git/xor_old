@@ -40,7 +40,7 @@
         @click="signOut">
         Sign Out {{ user.displayName }}
       </v-btn>
-      <xor-login-modal
+      <xor-sign-in-modal
         :dialog="dialog"
         @chengeDialog="applyDialog"/>
     </v-navigation-drawer>
@@ -54,10 +54,10 @@
 
 <script>
 import firebase from '~/plugins/firebase.js'
-import XorLoginModal from '~/components/xor-login-modal.vue'
+import XorSignInModal from '~/components/xor-sign-in-modal.vue'
 export default {
   components: {
-    XorLoginModal
+    XorSignInModal
   },
   data() {
     return {

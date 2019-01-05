@@ -16,20 +16,20 @@
             type="password"
             required
           />
-          <v-layout v-if="type === 'login'">
-            <v-btn @click="loginEmailAccount">Login</v-btn>
+          <v-layout v-if="type === 'signIn'">
+            <v-btn @click="signInEmailAccount">Sign in</v-btn>
             <v-btn
               outline
-              @click="type = 'register'">
-              SignUp
+              @click="type = 'signUp'">
+              Sign up
             </v-btn>
           </v-layout>
-          <v-layout v-if="type === 'register'">
-            <v-btn @click="createEmailAccount">Create Account</v-btn>
+          <v-layout v-if="type === 'signUp'">
+            <v-btn @click="signUpEmailAccount">Sign up</v-btn>
             <v-btn
               outline
-              @click="type = 'login'">
-              Login
+              @click="type = 'signIn'">
+              Sign in
             </v-btn>
           </v-layout>
           <v-btn @click="authGoogleAccount">Sign in with Google</v-btn>
@@ -51,7 +51,7 @@ export default {
   },
   data() {
     return {
-      type: 'login',
+      type: 'signIn',
       email: '',
       password: '',
       dialogData: this.dialog
@@ -66,7 +66,7 @@ export default {
     }
   },
   methods: {
-    createEmailAccount() {
+    signUpEmailAccount() {
       firebase
         .auth()
         .createUserWithEmailAndPassword(this.email, this.password)
@@ -88,7 +88,7 @@ export default {
           alert(error.message)
         })
     },
-    loginEmailAccount() {
+    signInEmailAccount() {
       firebase
         .auth()
         .signInWithEmailAndPassword(this.email, this.password)
