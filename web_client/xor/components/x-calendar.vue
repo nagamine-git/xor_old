@@ -14,7 +14,6 @@
             class="fullcalendar"/>
         </div>
       </v-card-title>
-      {{ events }}
     </v-card>
   </v-flex>
 </template>
