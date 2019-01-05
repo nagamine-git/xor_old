@@ -10,7 +10,8 @@
           <h3 class="headline mb-0">Calendar</h3>
           <full-calendar
             :config="config"
-            :events="events"/>
+            :events="events"
+            class="fullcalendar"/>
         </div>
       </v-card-title>
       {{ events }}
@@ -51,8 +52,8 @@ export default {
       ],
       config: {
         header: {
-          left: 'prev,next today',
-          center: 'title',
+          left: 'prev,next today title',
+          center: null,
           right: null
         },
         defaultView: 'agendaDay',
@@ -84,3 +85,10 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.fullcalendar >>> .fc-left h2 {
+  font-size: 16px;
+  line-height: 30px;
+}
+</style>
