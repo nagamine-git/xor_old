@@ -16,7 +16,5 @@
 </template>
 
 <script>
-export default {
-  name: 'XAssistant'
-}
+export default {}
 </script>

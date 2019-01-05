@@ -43,7 +43,6 @@
 import axios from 'axios'
 import firebase from '~/plugins/firebase.js'
 export default {
-  name: 'XLoginModal',
   props: {
     dialog: {
       type: Boolean,

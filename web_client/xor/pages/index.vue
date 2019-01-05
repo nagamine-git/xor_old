@@ -1,26 +1,26 @@
 <template>
   <v-layout :wrap="isMobile">
-    <x-timer class="function"/>
-    <x-calendar class="function"/>
-    <x-task class="function"/>
-    <x-assistant class="function"/>
-    <x-apps class="function"/>
+    <xor-timer class="function"/>
+    <xor-calendar class="function"/>
+    <xor-task class="function"/>
+    <xor-assistant class="function"/>
+    <xor-apps class="function"/>
   </v-layout>
 </template>
 
 <script>
-import XTimer from '~/components/x-timer.vue'
-import XCalendar from '~/components/x-calendar.vue'
-import XTask from '~/components/x-task.vue'
-import XAssistant from '~/components/x-assistant.vue'
-import XApps from '~/components/x-apps.vue'
+import XorTimer from '~/components/xor-timer.vue'
+import XorCalendar from '~/components/xor-calendar.vue'
+import XorTask from '~/components/xor-task.vue'
+import XorAssistant from '~/components/xor-assistant.vue'
+import XorApps from '~/components/xor-apps.vue'
 export default {
   components: {
-    XTimer,
-    XCalendar,
-    XTask,
-    XAssistant,
-    XApps
+    XorTimer,
+    XorCalendar,
+    XorTask,
+    XorAssistant,
+    XorApps
   },
   computed: {
     isMobile() {

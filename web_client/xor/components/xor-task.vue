@@ -28,7 +28,6 @@
 <script>
 import draggable from 'vuedraggable'
 export default {
-  name: 'XTask',
   components: {
     draggable
   },

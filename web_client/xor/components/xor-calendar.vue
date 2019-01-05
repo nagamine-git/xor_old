@@ -25,7 +25,6 @@ import 'fullcalendar/dist/fullcalendar.css'
 let nowHour = moment().format('HH')
 let scrollTime = (nowHour > 0 ? nowHour - 1 : nowHour) + ':00:00'
 export default {
-  name: 'XCalendar',
   components: {
     draggable
   },
