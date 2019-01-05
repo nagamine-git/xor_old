@@ -67,7 +67,7 @@ export default {
       clipped: false,
       drawer: true,
       fixed: false,
-      items: [{ inital: 'A', title: 'Welcome', to: '/' }],
+      items: [{ inital: 'M', title: 'Main', to: '/' }],
       miniVariant: false,
       right: true,
       rightDrawer: false,
