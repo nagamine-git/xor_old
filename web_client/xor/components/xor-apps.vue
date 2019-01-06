@@ -4,12 +4,12 @@
     pb-1
     md4
     xs12>
+    <v-subheader>
+      Apps
+    </v-subheader>
     <v-card id="apps">
       <v-card-title>
-        <div>
-          <h3 class="headline mb-0">Apps</h3>
-          <div>Apps Component</div>
-        </div>
+        Apps Component
       </v-card-title>
     </v-card>
   </v-flex>

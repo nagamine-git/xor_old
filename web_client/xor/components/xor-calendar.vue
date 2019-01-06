@@ -4,15 +4,15 @@
     pb-1
     md4
     xs12>
+    <v-subheader>
+      Calendar
+    </v-subheader>
     <v-card id="calendar">
       <v-card-title>
-        <div>
-          <h3 class="headline mb-0">Calendar</h3>
-          <full-calendar
-            :config="config"
-            :events="events"
-            class="fullcalendar"/>
-        </div>
+        <full-calendar
+          :config="config"
+          :events="events"
+          class="fullcalendar"/>
       </v-card-title>
     </v-card>
   </v-flex>

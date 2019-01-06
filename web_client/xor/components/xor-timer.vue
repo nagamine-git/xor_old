@@ -4,12 +4,12 @@
     pb-1
     md4
     xs12>
+    <v-subheader>
+      Timer
+    </v-subheader>
     <v-card id="timer">
       <v-card-title>
-        <div>
-          <h3 class="headline mb-0">Timer</h3>
-          <div>Timer Component</div>
-        </div>
+        Timer Component
       </v-card-title>
     </v-card>
   </v-flex>

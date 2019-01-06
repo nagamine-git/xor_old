@@ -45,9 +45,7 @@
         @chengeDialog="applyDialog"/>
     </v-navigation-drawer>
     <v-content style="overflow-x: scroll;">
-      <v-container style="display: inline;">
-        <nuxt />
-      </v-container>
+      <nuxt />
     </v-content>
   </v-app>
 </template>

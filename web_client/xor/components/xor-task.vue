@@ -4,22 +4,22 @@
     pb-1
     md4
     xs12>
+    <v-subheader>
+      Task
+    </v-subheader>
     <v-card id="task">
       <v-card-title>
-        <div>
-          <h3 class="headline mb-0">Task</h3>
-          <draggable v-model="tasks">
-            <div 
-              v-for="task in tasks"
-              :key="task.id">
-              {{ task.name }}
-              <v-icon
-                v-fcevent
-                :data-xid="task.xid"
-                :data-name="task.name">event</v-icon>
-            </div>
-          </draggable>
-        </div>
+        <draggable v-model="tasks">
+          <div 
+            v-for="task in tasks"
+            :key="task.id">
+            {{ task.name }}
+            <v-icon
+              v-fcevent
+              :data-xid="task.xid"
+              :data-name="task.name">event</v-icon>
+          </div>
+        </draggable>
       </v-card-title>
     </v-card>
   </v-flex>

@@ -4,12 +4,12 @@
     pb-1
     md4
     xs12>
+    <v-subheader>
+      Assistant
+    </v-subheader>
     <v-card id="assistant">
       <v-card-title>
-        <div>
-          <h3 class="headline mb-0">Assistant</h3>
-          <div>Assistant Component</div>
-        </div>
+        Assistant Component
       </v-card-title>
     </v-card>
   </v-flex>
