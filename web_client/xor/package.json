@@ -1,0 +1,39 @@
+{
+  "name": "xor",
+  "version": "1.0.0",
+  "description": "Web client of xor",
+  "author": "nagaminenot",
+  "private": true,
+  "scripts": {
+    "dev": "nuxt",
+    "build": "nuxt build",
+    "start": "nuxt start",
+    "generate": "nuxt generate",
+    "lint": "eslint --ext .js,.vue --ignore-path .gitignore .",
+    "precommit": "npm run lint",
+    "deploy": "nuxt build; firebase deploy --only hosting"
+  },
+  "dependencies": {
+    "@nuxtjs/axios": "^5.0.0",
+    "cross-env": "^5.2.0",
+    "firebase": "^5.7.2",
+    "jquery-ui-bundle": "^1.12.1-migrate",
+    "moment": "^2.23.0",
+    "nuxt": "^2.0.0",
+    "vue-full-calendar": "^2.7.0",
+    "vuedraggable": "^2.17.0",
+    "vuetify": "^1.2.4"
+  },
+  "devDependencies": {
+    "babel-eslint": "^8.2.1",
+    "eslint": "^5.0.1",
+    "eslint-config-prettier": "^3.1.0",
+    "eslint-loader": "^2.0.0",
+    "eslint-plugin-prettier": "2.6.2",
+    "eslint-plugin-vue": "^4.0.0",
+    "nodemon": "^1.11.0",
+    "prettier": "1.14.3",
+    "stylus": "^0.54.5",
+    "stylus-loader": "^3.0.2"
+  }
+}
