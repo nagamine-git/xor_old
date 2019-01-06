@@ -22,12 +22,20 @@
               single-line/>
 
             <v-slide-y-transition>
-              <v-textarea
-                v-show="task.isExpand"
-                :value="task.description"
-                class="description"
-                label="Description"
-                single-line/>
+              <v-layout v-show="task.isExpand">
+                <div
+                  v-show="!(editingId == task.id)"
+                  @click="editDescription(task.id)"
+                  v-html="$md.render(task.description)"/>
+                <v-textarea
+                  v-show="editingId == task.id"
+                  :ref="'edit_' + task.id"
+                  :value="task.description"
+                  class="description"
+                  label="Description"
+                  single-line
+                  @blur="editingId = null"/>
+              </v-layout>
             </v-slide-y-transition>
           
           </v-card-title>
@@ -80,29 +88,38 @@ export default {
   data() {
     return {
       show: true,
+      editingId: null,
       tasks: [
         {
           id: 1,
           title: 'task1',
           xid: 'xid1',
-          description: 'hogefuga',
+          description: '# heading1\n- list1\n- list2\n- list3',
           isExpand: false
         },
         {
           id: 2,
           title: 'task2',
           xid: 'xid2',
-          description: 'hogefuga',
+          description: '# heading1\n- list1\n- list2\n- list3',
           isExpand: false
         },
         {
           id: 3,
           title: 'task3',
           xid: 'xid3',
-          description: 'hogefuga',
+          description: '# heading1\n- list1\n- list2\n- list3',
           isExpand: false
         }
       ]
+    }
+  },
+  methods: {
+    editDescription(id) {
+      this.editingId = id
+      this.$nextTick(function() {
+        this.$refs['edit_' + id][0].focus()
+      })
     }
   }
 }
