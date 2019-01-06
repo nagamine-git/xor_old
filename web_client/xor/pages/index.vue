@@ -1,9 +1,21 @@
 <template>
   <v-layout :wrap="isMobile">
     <xor-timer class="function"/>
+    <v-divider
+      class="mx-2"
+      vertical/>
     <xor-calendar class="function"/>
+    <v-divider
+      class="mx-2"
+      vertical/>
     <xor-task class="function"/>
+    <v-divider
+      class="mx-2"
+      vertical/>
     <xor-assistant class="function"/>
+    <v-divider
+      class="mx-2"
+      vertical/>
     <xor-apps class="function"/>
   </v-layout>
 </template>
