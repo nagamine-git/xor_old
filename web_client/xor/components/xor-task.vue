@@ -30,10 +30,12 @@
                 <v-textarea
                   v-show="editingId == task.id"
                   :ref="'edit_' + task.id"
-                  :value="task.description"
+                  v-model="task.description"
                   class="description"
                   label="Description"
                   single-line
+                  @keyup.ctrl.enter="editingId = null"
+                  @keyup.meta.enter="editingId = null"
                   @blur="editingId = null"/>
               </v-layout>
             </v-slide-y-transition>
