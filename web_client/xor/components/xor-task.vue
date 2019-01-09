@@ -8,6 +8,8 @@
       Task
     </v-subheader>
 
+    <button @click="showTasks">Show Tasks</button>
+
     <draggable v-model="tasks">
       <v-flex
         v-for="task in tasks"
@@ -69,6 +71,8 @@
 
 <script>
 import draggable from 'vuedraggable'
+import firebase from '~/plugins/firebase.js'
+const db = firebase.firestore()
 export default {
   components: {
     draggable
@@ -122,6 +126,27 @@ export default {
       this.$nextTick(function() {
         this.$refs['edit_' + id][0].focus()
       })
+    },
+    showTasks() {
+      const userRef = db.collection('users').doc('SET_USER_ID')
+      userRef
+        .get()
+        .then(doc => {
+          if (doc.exists) {
+            // console.log('Document data:', doc.data())
+            let shot = doc.data().tasks.forEach(taskRef => {
+              taskRef.get().then(task => {
+                console.log(task.data())
+              })
+            })
+          } else {
+            // doc.data() will be undefined in this case
+            console.log('No such document!')
+          }
+        })
+        .catch(function(error) {
+          console.log('Error getting document:', error)
+        })
     }
   }
 }
