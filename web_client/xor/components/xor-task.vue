@@ -10,8 +10,8 @@
 
     <draggable v-model="tasks">
       <v-flex
-        v-for="task in tasks"
-        :key="task.id"
+        v-for="(task, index) in tasks"
+        :key="index"
         mb-2>
         <v-card class="task__card">
           <v-card-title>
@@ -19,24 +19,26 @@
               v-model="task.title"
               class="title"
               label="Title"
-              single-line/>
+              single-line
+              @keyup="changeTask(task)"/>
 
             <v-slide-y-transition>
               <v-layout v-show="task.isExpand">
                 <div
-                  v-show="!(editingId == task.id)"
-                  @click="editDescription(task.id)"
-                  v-html="$md.render(task.description)"/>
+                  v-show="!(editingIndex == index)"
+                  @click="editDescription(index)"
+                  v-html="$md.render(computedDescription(task.description))"/>
                 <v-textarea
-                  v-show="editingId == task.id"
-                  :ref="'edit_' + task.id"
+                  v-show="editingIndex == index"
+                  :ref="'edit_' + index"
                   v-model="task.description"
                   class="description"
                   label="Description"
                   single-line
-                  @keyup.ctrl.enter="editingId = null"
-                  @keyup.meta.enter="editingId = null"
-                  @blur="editingId = null"/>
+                  @keyup="changeTask(task)"
+                  @keyup.ctrl.enter="editingIndex = null"
+                  @keyup.meta.enter="editingIndex = null"
+                  @blur="editingIndex = null"/>
               </v-layout>
             </v-slide-y-transition>
           
@@ -45,7 +47,7 @@
           <v-card-actions>
             <v-icon
               v-fcevent
-              :data-id="task.id" 
+              :data-id="task.uid" 
               :data-name="task.name"
               class="icon_calendar">event</v-icon>
             <v-btn 
@@ -98,7 +100,7 @@ export default {
   data() {
     return {
       show: true,
-      editingId: null,
+      editingIndex: null,
       tasks: []
     }
   },
@@ -118,10 +120,10 @@ export default {
     }
   },
   methods: {
-    editDescription(id) {
-      this.editingId = id
+    editDescription(index) {
+      this.editingIndex = index
       this.$nextTick(function() {
-        this.$refs['edit_' + id][0].focus()
+        this.$refs['edit_' + index][0].focus()
       })
     },
     addTask() {
@@ -129,8 +131,17 @@ export default {
     },
     ...mapMutations({
       getTasks: 'task/getTasks',
-      setTask: 'task/setTask'
-    })
+      setTask: 'task/setTask',
+      updateTask: 'task/updateTask'
+    }),
+    changeTask(task) {
+      if (task) {
+        this.updateTask(task)
+      }
+    },
+    computedDescription(description) {
+      return description ? description : 'ここをクリックしてください'
+    }
   }
 }
 </script>
@@ -139,6 +150,7 @@ export default {
 .title {
   margin: 0px auto;
   padding: 0px;
+  width: 100%;
 }
 .task__card >>> .v-card__title {
   padding-bottom: 0px;

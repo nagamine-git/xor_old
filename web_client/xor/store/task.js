@@ -38,12 +38,14 @@ export const mutations = {
                 })
                 taskRef.get().then(task => {
                   let taskData = task.data()
-                  tasks.push({
-                    id: task.id,
-                    title: taskData.title,
-                    description: taskData.description,
-                    isExpand: taskData.isExpand
-                  })
+                  if (taskData) {
+                    tasks.push({
+                      id: task.id,
+                      title: taskData.title,
+                      description: taskData.description,
+                      isExpand: taskData.isExpand
+                    })
+                  }
                 })
               })
               state.tasks = tasks
@@ -78,6 +80,10 @@ export const mutations = {
     })
     newTask['id'] = taskId
     state.tasks.push(newTask)
+  },
+  updateTask(state, task) {
+    const taskRef = db.collection('tasks').doc(task.id)
+    taskRef.update(task)
   }
 }
 export const getters = {
