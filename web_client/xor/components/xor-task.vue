@@ -64,6 +64,11 @@
         </v-card>
       </v-flex>
     </draggable>
+    <v-card
+      class="task__card text-md-center"
+      @click="addTask()">
+      <v-flex py-1><v-icon>add</v-icon></v-flex>
+    </v-card>
   </v-flex>
 </template>
 
@@ -119,8 +124,12 @@ export default {
         this.$refs['edit_' + id][0].focus()
       })
     },
+    addTask() {
+      this.setTask(this.user.uid)
+    },
     ...mapMutations({
-      getTasks: 'task/getTasks'
+      getTasks: 'task/getTasks',
+      setTask: 'task/setTask'
     })
   }
 }
