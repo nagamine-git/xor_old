@@ -72,6 +72,7 @@
 <script>
 import draggable from 'vuedraggable'
 import firebase from '~/plugins/firebase.js'
+import { mapGetters } from 'vuex'
 const db = firebase.firestore()
 export default {
   components: {
@@ -120,6 +121,12 @@ export default {
       ]
     }
   },
+  computed: {
+    ...mapGetters({
+      isSignIn: 'user/isSignedIn',
+      user: 'user/user'
+    })
+  },
   methods: {
     editDescription(id) {
       this.editingId = id
@@ -128,12 +135,11 @@ export default {
       })
     },
     showTasks() {
-      const userRef = db.collection('users').doc('SET_USER_ID')
+      const userRef = db.collection('users').doc(this.user.uid)
       userRef
         .get()
         .then(doc => {
           if (doc.exists) {
-            // console.log('Document data:', doc.data())
             let shot = doc.data().tasks.forEach(taskRef => {
               taskRef.get().then(task => {
                 console.log(task.data())

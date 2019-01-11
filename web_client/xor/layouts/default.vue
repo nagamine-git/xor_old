@@ -31,7 +31,7 @@
         </v-list-tile>
       </v-list>
       <v-btn
-        v-if="!user"
+        v-if="!isSignIn"
         @click="dialog = true">
         Sign In
       </v-btn>
@@ -53,13 +53,13 @@
 <script>
 import firebase from '~/plugins/firebase.js'
 import XorSignInModal from '~/components/xor-sign-in-modal.vue'
+import { mapGetters, mapMutations } from 'vuex'
 export default {
   components: {
     XorSignInModal
   },
   data() {
     return {
-      user: null,
       dialog: false,
       isDark: true,
       clipped: false,
@@ -72,9 +72,17 @@ export default {
       title: 'Vuetify.js'
     }
   },
+  computed: {
+    ...mapGetters({
+      isSignIn: 'user/isSignedIn',
+      user: 'user/user'
+    })
+  },
   created() {
     firebase.auth().onAuthStateChanged(user => {
-      this.user = user
+      let currentUser = user ? user : {}
+      this.onAuthStateChanged(currentUser)
+      this.onUserStatusChanged(currentUser.uid ? true : false)
     })
   },
   methods: {
@@ -87,10 +95,13 @@ export default {
         .signOut()
         .then(() => {
           alert('Success')
-          this.user = null
           this.dialog = false
         })
-    }
+    },
+    ...mapMutations({
+      onAuthStateChanged: 'user/onAuthStateChanged',
+      onUserStatusChanged: 'user/onUserStatusChanged'
+    })
   }
 }
 </script>

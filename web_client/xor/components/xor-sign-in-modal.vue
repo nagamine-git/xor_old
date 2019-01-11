@@ -94,7 +94,6 @@ export default {
         .auth()
         .signInWithEmailAndPassword(this.email, this.password)
         .then(user => {
-          this.$store.commit('user/setUserId', user.uid)
           alert('ログインしました')
           this.dialogData = false
         })
@@ -109,7 +108,6 @@ export default {
         .auth()
         .signInWithPopup(provider)
         .then(response => {
-          this.$store.commit('user/setUserId', response.user.uid)
           alert(`Create account: ${response.user.email}`)
           axios
             .get(
@@ -128,8 +126,7 @@ export default {
             })
           this.dialogData = false
         })
-    },
-    ...mapMutations(['user'])
+    }
   }
 }
 </script>
