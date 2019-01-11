@@ -9,6 +9,7 @@ if (!firebase.apps.length) {
     storageBucket: process.env.firebase.storageBucket,
     messagingSenderId: process.env.firebase.messagingSenderId
   })
+  firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL)
 }
 
 export default firebase
