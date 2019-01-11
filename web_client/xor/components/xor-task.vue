@@ -8,8 +8,6 @@
       Task
     </v-subheader>
 
-    <button @click="showTasks">Show Tasks</button>
-
     <draggable v-model="tasks">
       <v-flex
         v-for="task in tasks"
@@ -47,7 +45,7 @@
           <v-card-actions>
             <v-icon
               v-fcevent
-              :data-xid="task.xid" 
+              :data-id="task.id" 
               :data-name="task.name"
               class="icon_calendar">event</v-icon>
             <v-btn 
@@ -72,7 +70,7 @@
 <script>
 import draggable from 'vuedraggable'
 import firebase from '~/plugins/firebase.js'
-import { mapGetters } from 'vuex'
+import { mapGetters, mapMutations } from 'vuex'
 const db = firebase.firestore()
 export default {
   components: {
@@ -96,36 +94,23 @@ export default {
     return {
       show: true,
       editingId: null,
-      tasks: [
-        {
-          id: 1,
-          title: 'task1',
-          xid: 'xid1',
-          description: '# heading1\n- list1\n- list2\n- list3',
-          isExpand: false
-        },
-        {
-          id: 2,
-          title: 'task2',
-          xid: 'xid2',
-          description: '# heading1\n- list1\n- list2\n- list3',
-          isExpand: false
-        },
-        {
-          id: 3,
-          title: 'task3',
-          xid: 'xid3',
-          description: '# heading1\n- list1\n- list2\n- list3',
-          isExpand: false
-        }
-      ]
+      tasks: []
     }
   },
   computed: {
     ...mapGetters({
       isSignIn: 'user/isSignedIn',
-      user: 'user/user'
+      user: 'user/user',
+      stateTasks: 'task/tasks'
     })
+  },
+  watch: {
+    stateTasks() {
+      this.tasks = this.stateTasks
+    },
+    user() {
+      this.getTasks(this.isSignIn ? this.user.uid : false)
+    }
   },
   methods: {
     editDescription(id) {
@@ -134,26 +119,9 @@ export default {
         this.$refs['edit_' + id][0].focus()
       })
     },
-    showTasks() {
-      const userRef = db.collection('users').doc(this.user.uid)
-      userRef
-        .get()
-        .then(doc => {
-          if (doc.exists) {
-            let shot = doc.data().tasks.forEach(taskRef => {
-              taskRef.get().then(task => {
-                console.log(task.data())
-              })
-            })
-          } else {
-            // doc.data() will be undefined in this case
-            console.log('No such document!')
-          }
-        })
-        .catch(function(error) {
-          console.log('Error getting document:', error)
-        })
-    }
+    ...mapMutations({
+      getTasks: 'task/getTasks'
+    })
   }
 }
 </script>
