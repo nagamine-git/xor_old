@@ -55,7 +55,8 @@
               icon><v-icon>done</v-icon></v-btn>
             <v-btn 
               flat 
-              icon><v-icon>delete</v-icon></v-btn>
+              icon
+              @click="deleteTask(index)"><v-icon>delete</v-icon></v-btn>
             <v-spacer/>
             <v-btn 
               icon 
@@ -131,6 +132,9 @@ export default {
     },
     addTask() {
       this.setTask(this.user.uid)
+    },
+    deleteTask(index) {
+      this.tasks.splice(index, 1)
     },
     ...mapMutations({
       getTasks: 'task/getTasks',
