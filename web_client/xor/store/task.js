@@ -25,7 +25,7 @@ export const mutations = {
                     querySnapshot.id
                   )
                     state.tasks.forEach(task => {
-                      if ((task.id = querySnapshot.id)) {
+                      if (task.id == querySnapshot.id) {
                         let taskData = querySnapshot.data()
                         task = {
                           id: task.id,

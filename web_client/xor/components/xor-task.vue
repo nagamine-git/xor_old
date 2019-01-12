@@ -59,7 +59,7 @@
             <v-spacer/>
             <v-btn 
               icon 
-              @click="task.isExpand = !task.isExpand">
+              @click="toggleExpand(task)">
               <v-icon>{{ task.isExpand ? 'keyboard_arrow_down' : 'keyboard_arrow_up' }}</v-icon>
             </v-btn>
           </v-card-actions>
@@ -141,6 +141,10 @@ export default {
     },
     computedDescription(description) {
       return description ? description : 'ここをクリックしてください'
+    },
+    toggleExpand(task) {
+      task.isExpand = !task.isExpand
+      this.changeTask(task)
     }
   }
 }
