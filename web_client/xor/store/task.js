@@ -82,7 +82,7 @@ export const mutations = {
     taskRef.update(task)
   },
   updateTaskRefs(state, object) {
-    if(object.tasks.length > 0) {
+    if (object.tasks.length > 0) {
       const userRef = db.collection('users').doc(object.userId)
       let taskArray = []
       object.tasks.forEach(task => {
