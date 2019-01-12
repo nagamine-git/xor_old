@@ -48,6 +48,11 @@ export const mutations = {
                   }
                 })
               })
+              tasks.sort((a, b) => {
+                if (a.sequence < b.sequence) return -1
+                if (a.sequence > b.sequence) return 1
+                return 0
+              })
               state.tasks = tasks
             }
           }
@@ -68,22 +73,23 @@ export const mutations = {
       description: '',
       isExpand: false
     }
-    taskRef.set(newTask).then(() => {
-      userRef.get().then(user => {
-        let userData = user.data()
-        let tasks = userData.tasks
-        tasks.push(taskRef)
-        userRef.update({
-          tasks: tasks
-        })
-      })
-    })
+    taskRef.set(newTask)
     newTask['id'] = taskId
     state.tasks.push(newTask)
   },
   updateTask(state, task) {
     const taskRef = db.collection('tasks').doc(task.id)
     taskRef.update(task)
+  },
+  updateSequence(state, object) {
+    const userRef = db.collection('users').doc(object.userId)
+    let taskArray = []
+    object.tasks.forEach(task => {
+      taskArray.push(db.collection('tasks').doc(task.id))
+    })
+    userRef.update({
+      tasks: taskArray
+    })
   }
 }
 export const getters = {

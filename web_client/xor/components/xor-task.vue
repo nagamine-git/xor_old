@@ -117,6 +117,9 @@ export default {
     },
     user() {
       this.getTasks(this.isSignIn ? this.user.uid : false)
+    },
+    tasks() {
+      this.updateSequence({ tasks: this.tasks, userId: this.user.uid })
     }
   },
   methods: {
@@ -132,7 +135,8 @@ export default {
     ...mapMutations({
       getTasks: 'task/getTasks',
       setTask: 'task/setTask',
-      updateTask: 'task/updateTask'
+      updateTask: 'task/updateTask',
+      updateSequence: 'task/updateSequence'
     }),
     changeTask(task) {
       if (task) {
