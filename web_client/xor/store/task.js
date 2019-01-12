@@ -8,6 +8,7 @@ export const state = () => ({
 })
 
 export const mutations = {
+  // タスク一覧を取得し、変更を検知できるようにする
   getTasks(state, userId) {
     if (userId) {
       const userRef = db.collection('users').doc(userId)
@@ -17,13 +18,27 @@ export const mutations = {
           if (doc.exists) {
             let taskRefs = doc.data().tasks
             if (taskRefs) {
-              let tasks = []
+              let tasks = [] // stateを直接編集せず、一時的な配列として作成
               taskRefs.forEach(taskRef => {
+                // タスクごとにgetして、taskに入れていく
+                taskRef.get().then(task => {
+                  let taskData = task.data()
+                  if (taskData) {
+                    tasks.push({
+                      id: task.id,
+                      title: taskData.title,
+                      description: taskData.description,
+                      isExpand: taskData.isExpand
+                    })
+                  }
+                })
+                // onSnapshotを実行し、タスクの変更を検知したらstateに反映する
                 taskRef.onSnapshot(querySnapshot => {
                   if (
                     querySnapshot.metadata.hasPendingWrites &&
                     querySnapshot.id
                   )
+                    // state内のtaskを探し、一致したものののみ反映する
                     state.tasks.forEach(task => {
                       if (task.id == querySnapshot.id) {
                         let taskData = querySnapshot.data()
@@ -35,17 +50,6 @@ export const mutations = {
                         }
                       }
                     })
-                })
-                taskRef.get().then(task => {
-                  let taskData = task.data()
-                  if (taskData) {
-                    tasks.push({
-                      id: task.id,
-                      title: taskData.title,
-                      description: taskData.description,
-                      isExpand: taskData.isExpand
-                    })
-                  }
                 })
               })
               state.tasks = tasks
@@ -59,6 +63,7 @@ export const mutations = {
       state.tasks = []
     }
   },
+  // 作成に作成したタスクをfirestoreに反映させる
   setTask(state) {
     const taskId = uuidv4()
     const taskRef = db.collection('tasks').doc(taskId)
@@ -71,10 +76,12 @@ export const mutations = {
     newTask['id'] = taskId
     state.tasks.push(newTask)
   },
+  // タスク単体の変更をfirestoreに反映させる
   updateTask(state, task) {
     const taskRef = db.collection('tasks').doc(task.id)
     taskRef.update(task)
   },
+  // タスクの並び順など、tasks全体での変更があった場合に反映させる
   updateTaskRefs(state, object) {
     if (object.tasks.length > 0) {
       const userRef = db.collection('users').doc(object.userId)

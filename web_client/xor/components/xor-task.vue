@@ -67,6 +67,7 @@
         </v-card>
       </v-flex>
     </draggable>
+
     <v-card
       v-if="isSignIn"
       class="task__card text-md-center"
@@ -86,6 +87,7 @@ export default {
     draggable
   },
   directives: {
+    // カレンダーへドラッグ・アンド・ドロップできるように独自ディレクティブ設定
     fcevent: {
       bind(el) {
         $(el).data('event', {
@@ -101,7 +103,6 @@ export default {
   },
   data() {
     return {
-      show: true,
       editingIndex: null,
       tasks: []
     }
@@ -118,13 +119,16 @@ export default {
       this.tasks = this.stateTasks
     },
     user() {
-      this.getTasks(this.isSignIn ? this.user.uid : false)
+      this.getTasks(this.isSignIn ? this.user.uid : false) // ログインが検知できたらfirestoreからタスク取得
     },
     tasks() {
-      this.updateTaskRefs({ tasks: this.tasks, userId: this.user.uid })
+      this.updateTaskRefs({ tasks: this.tasks, userId: this.user.uid }) // tasksの並び順の変更に反応してfirestoreを更新
     }
   },
   methods: {
+    computedDescription(description) {
+      return description ? description : 'ここをクリックしてください' // descriptionを引数で持ちたいのでmethodにした
+    },
     editDescription(index) {
       this.editingIndex = index
       this.$nextTick(function() {
@@ -137,24 +141,21 @@ export default {
     deleteTask(index) {
       this.tasks.splice(index, 1)
     },
-    ...mapMutations({
-      getTasks: 'task/getTasks',
-      setTask: 'task/setTask',
-      updateTask: 'task/updateTask',
-      updateTaskRefs: 'task/updateTaskRefs'
-    }),
     changeTask(task) {
       if (task) {
         this.updateTask(task)
       }
     },
-    computedDescription(description) {
-      return description ? description : 'ここをクリックしてください'
-    },
     toggleExpand(task) {
       task.isExpand = !task.isExpand
       this.changeTask(task)
-    }
+    },
+    ...mapMutations({
+      getTasks: 'task/getTasks',
+      setTask: 'task/setTask',
+      updateTask: 'task/updateTask',
+      updateTaskRefs: 'task/updateTaskRefs'
+    })
   }
 }
 </script>
