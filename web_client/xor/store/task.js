@@ -81,15 +81,17 @@ export const mutations = {
     const taskRef = db.collection('tasks').doc(task.id)
     taskRef.update(task)
   },
-  updateSequence(state, object) {
-    const userRef = db.collection('users').doc(object.userId)
-    let taskArray = []
-    object.tasks.forEach(task => {
-      taskArray.push(db.collection('tasks').doc(task.id))
-    })
-    userRef.update({
-      tasks: taskArray
-    })
+  updateTaskRefs(state, object) {
+    if(object.tasks.length > 0) {
+      const userRef = db.collection('users').doc(object.userId)
+      let taskArray = []
+      object.tasks.forEach(task => {
+        taskArray.push(db.collection('tasks').doc(task.id))
+      })
+      userRef.update({
+        tasks: taskArray
+      })
+    }
   }
 }
 export const getters = {

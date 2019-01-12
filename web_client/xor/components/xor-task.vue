@@ -120,7 +120,7 @@ export default {
       this.getTasks(this.isSignIn ? this.user.uid : false)
     },
     tasks() {
-      this.updateSequence({ tasks: this.tasks, userId: this.user.uid })
+      this.updateTaskRefs({ tasks: this.tasks, userId: this.user.uid })
     }
   },
   methods: {
@@ -140,7 +140,7 @@ export default {
       getTasks: 'task/getTasks',
       setTask: 'task/setTask',
       updateTask: 'task/updateTask',
-      updateSequence: 'task/updateSequence'
+      updateTaskRefs: 'task/updateTaskRefs'
     }),
     changeTask(task) {
       if (task) {
