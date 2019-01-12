@@ -32,12 +32,12 @@ export default {
     return {
       events: [
         {
-          xid: 'xid1',
+          xorid: 'xorid1',
           title: 'event1',
           start: '2019-01-04T12:30:00'
         },
         {
-          xid: 'xid2',
+          xorid: 'xorid2',
           title: 'event2',
           start: '2010-01-05',
           end: '2019-01-07'
@@ -75,8 +75,8 @@ export default {
     dropEvent(event, obj) {
       let date = new Date()
       this.events.push({
-        title: obj.target.dataset.name,
-        xid: obj.target.dataset.xid,
+        title: obj.target.dataset.title,
+        xorid: obj.target.dataset.xorid,
         start: event._d.toUTCString()
       })
     }
