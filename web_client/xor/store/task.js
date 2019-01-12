@@ -48,11 +48,6 @@ export const mutations = {
                   }
                 })
               })
-              tasks.sort((a, b) => {
-                if (a.sequence < b.sequence) return -1
-                if (a.sequence > b.sequence) return 1
-                return 0
-              })
               state.tasks = tasks
             }
           }
@@ -64,10 +59,9 @@ export const mutations = {
       state.tasks = []
     }
   },
-  setTask(state, userId) {
+  setTask(state) {
     const taskId = uuidv4()
     const taskRef = db.collection('tasks').doc(taskId)
-    const userRef = db.collection('users').doc(userId)
     const newTask = {
       title: '',
       description: '',
