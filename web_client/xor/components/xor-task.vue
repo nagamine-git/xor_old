@@ -68,6 +68,7 @@
       </v-flex>
     </draggable>
     <v-card
+      v-if="isSignIn"
       class="task__card text-md-center"
       @click="addTask()">
       <v-flex py-1><v-icon>add</v-icon></v-flex>
