@@ -30,24 +30,7 @@ export default {
   },
   data() {
     return {
-      events: [
-        {
-          xorid: 'xorid1',
-          title: 'event1',
-          start: '2019-01-04T12:30:00'
-        },
-        {
-          xorid: 'xorid2',
-          title: 'event2',
-          start: '2010-01-05',
-          end: '2019-01-07'
-        },
-        {
-          title: 'event3',
-          start: '2019-01-09T12:30:00',
-          allDay: false
-        }
-      ],
+      events: [],
       config: {
         header: {
           left: 'prev,next today title',
@@ -76,7 +59,7 @@ export default {
       let date = new Date()
       this.events.push({
         title: obj.target.dataset.title,
-        xorid: obj.target.dataset.xorid,
+        xor_id: obj.target.dataset.xor_id,
         start: event._d.toUTCString()
       })
     }

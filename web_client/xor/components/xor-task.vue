@@ -47,7 +47,7 @@
           <v-card-actions>
             <v-icon
               v-fcevent
-              :data-xorid="task.id" 
+              :data-xor_id="task.id" 
               :data-title="task.title"
               class="icon_calendar">event</v-icon>
             <v-btn 

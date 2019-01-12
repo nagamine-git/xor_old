@@ -42,7 +42,6 @@
 <script>
 import axios from 'axios'
 import firebase from '~/plugins/firebase.js'
-import { mapMutations } from 'vuex'
 export default {
   props: {
     dialog: {
