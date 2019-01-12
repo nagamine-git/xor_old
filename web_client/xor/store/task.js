@@ -24,12 +24,8 @@ export const mutations = {
                 taskRef.get().then(task => {
                   let taskData = task.data()
                   if (taskData) {
-                    tasks.push({
-                      id: task.id,
-                      title: taskData.title,
-                      description: taskData.description,
-                      isExpand: taskData.isExpand
-                    })
+                    taskData['id'] = task.id
+                    tasks.push(taskData)
                   }
                 })
                 // onSnapshotを実行し、タスクの変更を検知したらstateに反映する
@@ -42,12 +38,8 @@ export const mutations = {
                     state.tasks.forEach(task => {
                       if (task.id == querySnapshot.id) {
                         let taskData = querySnapshot.data()
-                        task = {
-                          id: task.id,
-                          title: taskData.title,
-                          description: taskData.description,
-                          isExpand: taskData.isExpand
-                        }
+                        task = taskData
+                        task['id'] = task.id
                       }
                     })
                 })
@@ -70,6 +62,7 @@ export const mutations = {
     const newTask = {
       title: '',
       description: '',
+      isComplete: false,
       isExpand: false
     }
     taskRef.set(newTask)

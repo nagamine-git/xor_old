@@ -13,7 +13,9 @@
         v-for="(task, index) in tasks"
         :key="index"
         mb-2>
-        <v-card class="task__card">
+        <v-card
+          v-if="!task.isComplete"
+          class="task__card">
           <v-card-title>
             <v-text-field
               v-model="task.title"
@@ -52,7 +54,8 @@
               class="icon_calendar">event</v-icon>
             <v-btn 
               flat 
-              icon><v-icon>done</v-icon></v-btn>
+              icon
+              @click="completeTask(task)"><v-icon>done</v-icon></v-btn>
             <v-btn 
               flat 
               icon
@@ -145,6 +148,10 @@ export default {
       if (task) {
         this.updateTask(task)
       }
+    },
+    completeTask(task) {
+      task['isComplete'] = true
+      this.updateTask(task)
     },
     toggleExpand(task) {
       task.isExpand = !task.isExpand
