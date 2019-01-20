@@ -40,9 +40,12 @@
         @click="signOut">
         Sign Out {{ user.displayName }}
       </v-btn>
+      <v-btn
+        @click="getCalList">
+        Get Cal List
+      </v-btn>
       <xor-sign-in-modal
-        :dialog="dialog"
-        @chengeDialog="applyDialog"/>
+        :dialog.sync="dialog"/>
     </v-navigation-drawer>
     <v-content style="overflow-x: scroll;">
       <nuxt />
@@ -53,7 +56,7 @@
 <script>
 import firebase from '~/plugins/firebase.js'
 import XorSignInModal from '~/components/xor-sign-in-modal.vue'
-import { mapGetters, mapMutations } from 'vuex'
+import { mapGetters, mapMutations, mapActions } from 'vuex'
 export default {
   components: {
     XorSignInModal
@@ -84,23 +87,49 @@ export default {
       this.onAuthStateChanged(currentUser)
       this.onUserStatusChanged(currentUser.uid ? true : false)
     })
+    // gapiを読み込み、読み込み完了したらinitGapiで初期化
+    let script = document.createElement('script')
+    script.type = 'text/javascript'
+    script.src = 'https://apis.google.com/js/api.js'
+    script.onload = () => {
+      this.initGapi()
+    }
+    // gapiへアクセスできるようにheadに追加
+    document.getElementsByTagName('head')[0].appendChild(script)
   },
   methods: {
-    applyDialog(dialog) {
-      this.dialog = dialog
+    getCalList() {
+      let request = gapi.client.calendar.calendarList.list()
+      request.execute(response => {
+        console.log(response.items)
+      })
     },
     signOut() {
-      firebase
-        .auth()
-        .signOut()
-        .then(() => {
-          alert('Success')
-          this.dialog = false
-        })
+      this.user.providerData.forEach(data => {
+        if (data.providerId == 'google.com') {
+          let auth2 = gapi.auth2.getAuthInstance()
+          auth2.signOut().catch(error => {
+            alert('エラーが発生しました')
+          })
+        } else {
+          firebase
+            .auth()
+            .signOut()
+            .catch(error => {
+              alert('エラーが発生しました')
+            })
+        }
+      })
+      alert('ログアウトしました')
+      this.dialog = false
     },
     ...mapMutations({
       onAuthStateChanged: 'user/onAuthStateChanged',
       onUserStatusChanged: 'user/onUserStatusChanged'
+    }),
+    ...mapActions({
+      initGapi: 'user/initGapi',
+      firebaseLoginByGoogleToken: 'user/firebaseLoginByGoogleToken'
     })
   }
 }

@@ -40,6 +40,7 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 import axios from 'axios'
 import firebase from '~/plugins/firebase.js'
 export default {
@@ -59,7 +60,7 @@ export default {
   },
   watch: {
     dialogData() {
-      this.$emit('chengeDialog', this.dialogData)
+      this.$emit('update:dialog', this.dialogData)
     },
     dialog() {
       this.dialogData = this.dialog
@@ -101,31 +102,30 @@ export default {
         })
     },
     authGoogleAccount() {
-      const provider = new firebase.auth.GoogleAuthProvider()
-      provider.addScope('https://www.googleapis.com/auth/calendar')
-      firebase
-        .auth()
-        .signInWithPopup(provider)
-        .then(response => {
-          alert(`Create account: ${response.user.email}`)
-          axios
-            .get(
-              'https://www.googleapis.com/calendar/v3/users/me/calendarList',
-              {
-                headers: {
-                  Authorization: 'Bearer ' + response.credential.accessToken
-                }
-              }
-            )
-            .then(response => {
-              alert(`${response.data.items.length}個のカレンダーがあります`)
+      // gapiでサインインしていなければ、gapiのポップアップで新規サインイン
+      gapi.auth2
+        .getAuthInstance()
+        .signIn()
+        .then(() => {
+          let user = gapi.auth2.getAuthInstance().currentUser.get()
+          let token = user.getAuthResponse().id_token
+          this.firebaseLoginByGoogleToken(token)
+            .then(res => {
+              alert('ログインに成功しました')
+              this.dialogData = false
             })
             .catch(error => {
-              console.error(error)
+              alert('ログインに失敗しました')
+              this.dialogData = false
             })
-          this.dialogData = false
         })
-    }
+        .catch(error => {
+          console.log(error)
+        })
+    },
+    ...mapActions({
+      firebaseLoginByGoogleToken: 'user/firebaseLoginByGoogleToken'
+    })
   }
 }
 </script>

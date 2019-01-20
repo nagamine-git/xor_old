@@ -36,3 +36,45 @@ export const getters = {
     return state.status
   }
 }
+export const actions = {
+  initGapi(state) {
+    gapi.load('client:auth2', () => {
+      // gapiの初期化
+      gapi.client
+        .init({
+          apiKey: 'AIzaSyDlyaIzRrIYjoReuLvkDSx9kaawv_HwMfE',
+          clientId:
+            '540604142988-i8c0g09fuks34s12mhgd0uef3gojvrh2.apps.googleusercontent.com',
+          discoveryDocs: [
+            'https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest'
+          ],
+          scope: ['https://www.googleapis.com/auth/calendar'].join(' ')
+        })
+        // 初期化が終わったらclientをロード
+        .then(() => {
+          gapi.client.load('calendar', 'v3', () => {
+            if (gapi.auth2.getAuthInstance().isSignedIn.get()) {
+              // gapiでサインインしていれば、firebaseでログイン
+              let user = gapi.auth2.getAuthInstance().currentUser.get()
+              let token = user.getAuthResponse().id_token
+              state.dispatch('firebaseLoginByGoogleToken', token)
+            }
+          })
+        })
+    })
+  },
+  firebaseLoginByGoogleToken(state, token) {
+    return new Promise((resolve, reject) => {
+      let creds = firebase.auth.GoogleAuthProvider.credential(token)
+      firebase
+        .auth()
+        .signInAndRetrieveDataWithCredential(creds)
+        .then(res => {
+          resolve(res)
+        })
+        .catch(error => {
+          reject(error)
+        })
+    })
+  }
+}
