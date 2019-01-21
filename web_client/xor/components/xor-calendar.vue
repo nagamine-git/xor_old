@@ -4,15 +4,15 @@
     pb-1
     md4
     xs12>
+    <v-subheader>
+      Calendar
+    </v-subheader>
     <v-card id="calendar">
       <v-card-title>
-        <div>
-          <h3 class="headline mb-0">Calendar</h3>
-          <full-calendar
-            :config="config"
-            :events="events"
-            class="fullcalendar"/>
-        </div>
+        <full-calendar
+          :config="config"
+          :events="events"
+          class="fullcalendar"/>
       </v-card-title>
     </v-card>
   </v-flex>
@@ -30,24 +30,7 @@ export default {
   },
   data() {
     return {
-      events: [
-        {
-          xid: 'xid1',
-          title: 'event1',
-          start: '2019-01-04T12:30:00'
-        },
-        {
-          xid: 'xid2',
-          title: 'event2',
-          start: '2010-01-05',
-          end: '2019-01-07'
-        },
-        {
-          title: 'event3',
-          start: '2019-01-09T12:30:00',
-          allDay: false
-        }
-      ],
+      events: [],
       config: {
         header: {
           left: 'prev,next today title',
@@ -75,8 +58,8 @@ export default {
     dropEvent(event, obj) {
       let date = new Date()
       this.events.push({
-        title: obj.target.dataset.name,
-        xid: obj.target.dataset.xid,
+        title: obj.target.dataset.title,
+        xor_id: obj.target.dataset.xor_id,
         start: event._d.toUTCString()
       })
     }
