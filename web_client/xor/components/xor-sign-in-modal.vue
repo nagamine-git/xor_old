@@ -40,7 +40,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapActions, mapMutations } from 'vuex'
 import axios from 'axios'
 import firebase from '~/plugins/firebase.js'
 export default {
@@ -109,6 +109,7 @@ export default {
         .then(() => {
           let user = gapi.auth2.getAuthInstance().currentUser.get()
           let token = user.getAuthResponse().id_token
+          this.onGapiStatusChanged(token)
           this.firebaseLoginByGoogleToken(token)
             .then(res => {
               alert('ログインに成功しました')
@@ -123,6 +124,9 @@ export default {
           console.log(error)
         })
     },
+    ...mapMutations({
+      onGapiStatusChanged: 'user/onGapiStatusChanged'
+    }),
     ...mapActions({
       firebaseLoginByGoogleToken: 'user/firebaseLoginByGoogleToken'
     })

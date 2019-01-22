@@ -3,7 +3,8 @@ const db = firebase.firestore()
 
 export const state = () => ({
   user: {},
-  status: false
+  status: false,
+  gapiToken: null
 })
 
 export const mutations = {
@@ -26,6 +27,9 @@ export const mutations = {
   },
   onUserStatusChanged(state, status) {
     state.status = status //ログインしてるかどうか true or false
+  },
+  onGapiStatusChanged(state, token) {
+    state.gapiToken = token //Gapiでログインしてるかどうか true or false
   }
 }
 export const getters = {
@@ -34,6 +38,9 @@ export const getters = {
   },
   isSignedIn(state) {
     return state.status
+  },
+  isGapiSignedIn(state) {
+    return state.gapiToken ? true : false
   }
 }
 export const actions = {
@@ -57,6 +64,7 @@ export const actions = {
               // gapiでサインインしていれば、firebaseでログイン
               let user = gapi.auth2.getAuthInstance().currentUser.get()
               let token = user.getAuthResponse().id_token
+              state.dispatch('onGapiStatusChanged', token)
               state.dispatch('firebaseLoginByGoogleToken', token)
             }
           })
