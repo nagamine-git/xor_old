@@ -28,6 +28,7 @@ export const mutations = {
           let events = []
           response.items.forEach(item => {
             events.push({
+              id: item.id,
               title: item.summary,
               start: item.start.dateTime,
               end: item.end.dateTime
