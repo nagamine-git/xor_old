@@ -105,23 +105,24 @@ export default {
       })
     },
     signOut() {
-      this.user.providerData.forEach(data => {
-        if (data.providerId == 'google.com') {
+      firebase
+        .auth()
+        .signOut()
+        .then(() => {
           let auth2 = gapi.auth2.getAuthInstance()
-          auth2.signOut().catch(error => {
-            alert('エラーが発生しました')
-          })
-        } else {
-          firebase
-            .auth()
-            .signOut()
+          auth2
+            .disconnect()
+            .then(() => {
+              alert('ログアウトしました')
+              this.dialog = false
+            })
             .catch(error => {
               alert('エラーが発生しました')
             })
-        }
-      })
-      alert('ログアウトしました')
-      this.dialog = false
+        })
+        .catch(error => {
+          alert('エラーが発生しました')
+        })
     },
     ...mapMutations({
       onAuthStateChanged: 'user/onAuthStateChanged',
