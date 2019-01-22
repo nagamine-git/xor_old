@@ -25,13 +25,15 @@ export const mutations = {
       })
       request.execute(response => {
         if (response.items) {
+          let events = []
           response.items.forEach(item => {
-            state.gcalEvents.push({
+            events.push({
               title: item.summary,
               start: item.start.dateTime,
               end: item.end.dateTime
             })
           })
+          state.gcalEvents = events
         }
       })
     }
