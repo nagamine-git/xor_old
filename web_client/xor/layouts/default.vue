@@ -113,6 +113,7 @@ export default {
           auth2
             .disconnect()
             .then(() => {
+              this.onGapiStatusChanged(false)
               alert('ログアウトしました')
               this.dialog = false
             })
@@ -126,7 +127,8 @@ export default {
     },
     ...mapMutations({
       onAuthStateChanged: 'user/onAuthStateChanged',
-      onUserStatusChanged: 'user/onUserStatusChanged'
+      onUserStatusChanged: 'user/onUserStatusChanged',
+      onGapiStatusChanged: 'user/onGapiStatusChanged'
     }),
     ...mapActions({
       initGapi: 'user/initGapi',

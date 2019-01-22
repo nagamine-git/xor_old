@@ -29,7 +29,7 @@ export const mutations = {
     state.status = status //ログインしてるかどうか true or false
   },
   onGapiStatusChanged(state, token) {
-    state.gapiToken = token //Gapiでログインしてるかどうか true or false
+    state.gapiToken = token ? token : null //Gapiでログインしてるかどうか true or false
   }
 }
 export const getters = {
@@ -64,8 +64,10 @@ export const actions = {
               // gapiでサインインしていれば、firebaseでログイン
               let user = gapi.auth2.getAuthInstance().currentUser.get()
               let token = user.getAuthResponse().id_token
-              state.dispatch('onGapiStatusChanged', token)
+              state.commit('onGapiStatusChanged', token)
               state.dispatch('firebaseLoginByGoogleToken', token)
+            } else {
+              state.commit('onGapiStatusChanged', false)
             }
           })
         })
