@@ -10,9 +10,14 @@
     <v-card id="calendar">
       <v-card-title>
         <full-calendar
+          ref="calendar"
           :config="config"
           :events="events"
-          class="fullcalendar"/>
+          class="fullcalendar"
+          @event-selected="eventSelected"
+          @event-drop="eventDrop"
+          @event-resize="eventResize"
+          @event-created="eventCreated"/>
       </v-card-title>
     </v-card>
   </v-flex>
@@ -78,7 +83,23 @@ export default {
     },
     ...mapMutations({
       getGcalEvents: 'calendar/getGcalEvents'
-    })
+    }),
+    eventSelected(obj) {
+      console.log('クリックした')
+      console.log(obj)
+    },
+    eventDrop(obj) {
+      console.log('移動された')
+      console.log(obj)
+    },
+    eventResize(obj) {
+      console.log('サイズを変えた')
+      console.log(obj)
+    },
+    eventCreated(obj) {
+      console.log('イベントが作成された')
+      console.log(obj)
+    }
   }
 }
 </script>
