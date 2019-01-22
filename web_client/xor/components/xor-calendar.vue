@@ -19,6 +19,7 @@
 </template>
 
 <script>
+import { mapState, mapGetters, mapMutations } from 'vuex'
 import draggable from 'vuedraggable'
 import moment from 'moment'
 import 'fullcalendar/dist/fullcalendar.css'
@@ -30,7 +31,6 @@ export default {
   },
   data() {
     return {
-      events: [],
       config: {
         header: {
           left: 'prev,next today title',
@@ -38,7 +38,7 @@ export default {
           right: null
         },
         defaultView: 'agendaDay',
-        height: 750,
+        height: 650,
         nowIndicator: true,
         locale: 'ja',
         editable: true,
@@ -54,6 +54,19 @@ export default {
       }
     }
   },
+  computed: {
+    ...mapState({
+      events: state => state.calendar.gcalEvents
+    }),
+    ...mapGetters({
+      isGapiSignedIn: 'user/isGapiSignedIn'
+    })
+  },
+  watch: {
+    isGapiSignedIn() {
+      this.getGcalEvents()
+    }
+  },
   methods: {
     dropEvent(event, obj) {
       let date = new Date()
@@ -62,7 +75,10 @@ export default {
         xor_id: obj.target.dataset.xor_id,
         start: event._d.toUTCString()
       })
-    }
+    },
+    ...mapMutations({
+      getGcalEvents: 'calendar/getGcalEvents'
+    })
   }
 }
 </script>
