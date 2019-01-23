@@ -26,7 +26,7 @@
 <script>
 import { mapState, mapGetters, mapMutations } from 'vuex'
 import draggable from 'vuedraggable'
-import moment from 'moment'
+const moment = require('moment-timezone')
 import 'fullcalendar/dist/fullcalendar.css'
 let nowHour = moment().format('HH')
 let scrollTime = (nowHour > 0 ? nowHour - 1 : nowHour) + ':00:00'
@@ -75,10 +75,32 @@ export default {
   methods: {
     dropEvent(event, obj) {
       let date = new Date()
+      let startTime = moment(event._d.getTime()).toISOString()
+      let endTime = moment(event._d.getTime())
+        .add('hours', 1)
+        .toISOString()
       this.events.push({
         title: obj.target.dataset.title,
         xor_id: obj.target.dataset.xor_id,
-        start: event._d.toUTCString()
+        start: startTime,
+        end: endTime
+      })
+      let resource = {
+        summary: obj.target.dataset.title,
+        start: {
+          dateTime: moment(startTime).add('hours', -9)
+        },
+        end: {
+          dateTime: moment(endTime).add('hours', -9)
+        },
+        description: obj.target.dataset.xor_id
+      }
+      let request = gapi.client.calendar.events.insert({
+        calendarId: 'nagamine@slogan.jp',
+        resource: resource
+      })
+      request.execute(response => {
+        console.log(response)
       })
     },
     ...mapMutations({
@@ -97,8 +119,27 @@ export default {
       console.log(obj)
     },
     eventCreated(obj) {
-      console.log('イベントが作成された')
-      console.log(obj)
+      let resource = {
+        summary: '新規イベント',
+        start: {
+          dateTime: moment(obj.start.toISOString())
+            .tz('Asia/Tokyo')
+            .toISOString()
+        },
+        end: {
+          dateTime: moment(obj.end.toISOString())
+            .tz('Asia/Tokyo')
+            .toISOString()
+        },
+        description: 'あたらしいイベント'
+      }
+      let request = gapi.client.calendar.events.insert({
+        calendarId: 'nagamine@slogan.jp',
+        resource: resource
+      })
+      request.execute(response => {
+        console.log(response)
+      })
     }
   }
 }
