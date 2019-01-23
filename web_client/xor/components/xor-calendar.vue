@@ -100,7 +100,7 @@ export default {
         resource: resource
       })
       request.execute(response => {
-        console.log(response)
+        this.getGcalEvents()
       })
     },
     ...mapMutations({
@@ -111,12 +111,48 @@ export default {
       console.log(obj)
     },
     eventDrop(obj) {
-      console.log('移動された')
-      console.log(obj)
+      let resource = {
+        start: {
+          dateTime: moment(obj.start.toISOString())
+            .tz('Asia/Tokyo')
+            .toISOString()
+        },
+        end: {
+          dateTime: moment(obj.end.toISOString())
+            .tz('Asia/Tokyo')
+            .toISOString()
+        }
+      }
+      let request = gapi.client.calendar.events.patch({
+        calendarId: 'primary',
+        eventId: obj.id,
+        resource: resource
+      })
+      request.execute(response => {
+        this.getGcalEvents()
+      })
     },
     eventResize(obj) {
-      console.log('サイズを変えた')
-      console.log(obj)
+      let resource = {
+        start: {
+          dateTime: moment(obj.start.toISOString())
+            .tz('Asia/Tokyo')
+            .toISOString()
+        },
+        end: {
+          dateTime: moment(obj.end.toISOString())
+            .tz('Asia/Tokyo')
+            .toISOString()
+        }
+      }
+      let request = gapi.client.calendar.events.patch({
+        calendarId: 'primary',
+        eventId: obj.id,
+        resource: resource
+      })
+      request.execute(response => {
+        this.getGcalEvents()
+      })
     },
     eventCreated(obj) {
       let resource = {
@@ -138,7 +174,7 @@ export default {
         resource: resource
       })
       request.execute(response => {
-        console.log(response)
+        this.getGcalEvents()
       })
     }
   }
